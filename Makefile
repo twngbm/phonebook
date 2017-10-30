@@ -15,12 +15,13 @@ $(GIT_HOOKS):
 
 SRCS_common = main.c
 
-phonebook_orig: $(SRCS_common) phonebook_orig.c phonebook_orig.h
+phonebook_orig: $(SRCS_common) phonebook_orig.c phonebook_orig.h clean
 	$(CC) $(CFLAGS_common) $(CFLAGS_orig) \
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
+	
 
-phonebook_opt: $(SRCS_common) phonebook_opt.c phonebook_opt.h
+phonebook_opt: $(SRCS_common) phonebook_opt.c phonebook_opt.h clean
 	$(CC) $(CFLAGS_common) $(CFLAGS_opt) \
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
