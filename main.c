@@ -14,6 +14,17 @@
 
 #define DICT_FILE "./dictionary/words.txt"
 
+unsigned long hash(char *str)
+{
+    unsigned long hash = 5381;
+    int c;
+
+    while ((c = *str++))
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
+}
+
 static double diff_in_second(struct timespec t1, struct timespec t2)
 {
     struct timespec diff;
@@ -58,6 +69,7 @@ int main(int argc, char *argv[])
             i++;
         line[i - 1] = '\0';
         i = 0;
+        unsigned long key = hash(line);
         e = append(line, e);
     }
     clock_gettime(CLOCK_REALTIME, &end);
