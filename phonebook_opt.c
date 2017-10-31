@@ -12,13 +12,13 @@ int hash(char *str)
         hash = hash * seed + (*str++);
     }
     hash &= 0x7FFFFFFF;
-    return (hash% = SIZE);
+    return (hash %= SIZE);
 }
 int findName(char lastName[], entry *hash_table_index[])
 {
     unsigned long key = hash(lastName);
     entry *now = hash_table_index[key];
-    while (now->pNext! = NULL) {
+    while (now->pNext != NULL) {
         if (strcasecmp(lastName, now->lastName) == 0)
             return 1;
         now = now->pNext;

@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
     entry *hash_table_index[SIZE];
     for (i = 0; i < SIZE; i++) {
         hash_table_index[i] = ( entry *) malloc(sizeof(entry));
-        hash_table_index[i]->pNext=NULL;
     }
 #else
     entry *pHead, *e;
