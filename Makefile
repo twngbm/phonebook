@@ -22,7 +22,7 @@ phonebook_orig: $(SRCS_common) phonebook_orig.c phonebook_orig.h clean
 	
 
 phonebook_opt: $(SRCS_common) phonebook_opt.c phonebook_opt.h clean
-	$(CC) $(CFLAGS_common) $(CFLAGS_opt) \
+	$(CC) -g $(CFLAGS_common) $(CFLAGS_opt) \
 		-DIMPL="\"$@.h\"" -o $@ \
 		$(SRCS_common) $@.c
 

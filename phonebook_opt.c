@@ -2,24 +2,36 @@
 #include <string.h>
 #include "phonebook_opt.h"
 
+
 /* TODO: FILL YOUR OWN IMPLEMENTATION HERE! */
-entry *findName(char lastName[], entry *pHead)
+int hash(char *str)
 {
-    while (pHead != NULL) {
-        if (strcasecmp(lastName, pHead->lastName) == 0)
-            return pHead;
-        pHead = pHead->pNext;
+    unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
+    unsigned int hash = 0;
+    while (*str) {
+        hash = hash * seed + (*str++);
     }
-    return NULL;
+    hash &= 0x7FFFFFFF;
+    return (hash% = SIZE);
+}
+int findName(char lastName[], entry *hash_table_index[])
+{
+    unsigned long key = hash(lastName);
+    entry *now = hash_table_index[key];
+    while (now->pNext! = NULL) {
+        if (strcasecmp(lastName, now->lastName) == 0)
+            return 1;
+        now = now->pNext;
+    }
+    return 0;
 }
 
-entry *append(char lastName[], entry *e)
+void *append(char lastName[], entry *hash_table_index[])
 {
-    /* allocate memory for the new entry and put lastName */
-    e->pNext = (entry *) malloc(sizeof(entry));
-    e = e->pNext;
-    strcpy(e->lastName, lastName);
-    e->pNext = NULL;
-
-    return e;
+    int key = hash(lastName);
+    entry *temp = hash_table_index[key];
+    hash_table_index[key] = (entry *) malloc(sizeof(entry));
+    strcpy(hash_table_index[key]->lastName,lastName);
+    hash_table_index[key]->pNext = (temp == NULL) ? NULL : temp;
+    return NULL;
 }
