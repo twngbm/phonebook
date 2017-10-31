@@ -6,11 +6,16 @@
 
 #include IMPL
 
-#ifdef OPT
-#define OUT_FILE "opt.txt"
+#ifdef OPT_SMALL_STRUCTUR
+#define OUT_FILE "opt_ss.txt"
+#else
+#ifdef OPT_HASH
+#define OUT_FILE "opt_h.txt"
 #else
 #define OUT_FILE "orig.txt"
 #endif
+#endif
+
 
 #define DICT_FILE "./dictionary/words.txt"
 
@@ -43,7 +48,7 @@ int main(int argc, char *argv[])
     }
 
     /* build the entry */
-#ifdef OPT
+#ifdef OPT_HASH
     entry *hash_table_index[SIZE];
     for (i = 0; i < SIZE; i++) {
         hash_table_index[i] = ( entry *) malloc(sizeof(entry));
@@ -57,17 +62,20 @@ int main(int argc, char *argv[])
 #endif
 
 #if defined(__GNUC__)
-#ifndef OPT
+#ifdef OPT_HASH
+    __builtin___clear_cache((char *) hash_table_index, (char *) hash_table_index + sizeof(entry));
+#else
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
 #endif
+
     clock_gettime(CLOCK_REALTIME, &start);
     while (fgets(line, sizeof(line), fp)) {
         while (line[i] != '\0')
             i++;
         line[i - 1] = '\0';
         i = 0;
-#ifdef OPT
+#ifdef OPT_HASH
         append(line, hash_table_index);
 #else
         e = append(line, e);
@@ -87,14 +95,18 @@ int main(int argc, char *argv[])
            "Did you implement findName() in " IMPL "?");
     assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
     */
+
 #if defined(__GNUC__)
-#ifndef OPT
+#ifdef OPT_HASH
+    __builtin___clear_cache((char *) hash_table_index, (char *) hash_table_index + sizeof(entry));
+#else
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
 #endif
+
     /* compute the execution time */
     clock_gettime(CLOCK_REALTIME, &start);
-#ifdef OPT
+#ifdef OPT_HASH
     i = findName(input, hash_table_index);
 #else
     e = pHead;
@@ -108,17 +120,19 @@ int main(int argc, char *argv[])
     fclose(output);
 
     printf("execution time of append() : %lf sec\n", cpu_time1);
-#ifdef OPT
+#ifdef OPT_HASH
     printf("execution time of findName() : %lf sec,%d\n", cpu_time2,i);
 #else
     printf("execution time od findName() : %lf sec\n", cpu_time2);
 #endif
 
-#ifdef OPT
-    //if (hash_table_index) free(hash_table_index);
-#else
+#ifndef OPT_HASH
     if (pHead->pNext) free(pHead->pNext);
     free(pHead);
+#else
+    for(i=0; i<SIZE; i++) {
+        free(hash_table_index[i]->pNext);
+    }
 #endif
     return 0;
 }

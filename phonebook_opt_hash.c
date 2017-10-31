@@ -1,15 +1,15 @@
 #include <stdlib.h>
 #include <string.h>
-#include "phonebook_opt.h"
+#include "phonebook_opt_hash.h"
 
 
 /* TODO: FILL YOUR OWN IMPLEMENTATION HERE! */
-int hash(char *str)
+unsigned long hash(char *str)
 {
     unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
     unsigned int hash = 0;
     while (*str) {
-        hash = hash * seed + (*str++);
+        hash = hash*131 + (*str++);
     }
     hash &= 0x7FFFFFFF;
     return (hash %= SIZE);
