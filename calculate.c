@@ -41,6 +41,7 @@ int main(void)
         opt_ss_sum_a += opt_ss_a;
         opt_ss_sum_f += opt_ss_f;
     }
+    fclose(fp);
     /*for hash*/
     fp = fopen("opt_h.txt", "r");
     if (!fp) {
@@ -59,9 +60,9 @@ int main(void)
         opt_h_sum_a += opt_h_a;
         opt_h_sum_f += opt_h_f;
     }
+    fclose(fp);
     fprintf(output, "append() %lf %lf %lf\n",orig_sum_a / 100.0, opt_ss_sum_a / 100.0, opt_h_sum_a / 100.0);
     fprintf(output, "findName() %lf %lf %lf", orig_sum_f / 100.0, opt_ss_sum_f / 100.0, opt_h_sum_f / 100.0);
     fclose(output);
-    fclose(fp);
     return 0;
 }

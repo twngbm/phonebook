@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
     for (i = 0; i < SIZE; i++) {
         hash_table_index[i] = ( entry *) malloc(sizeof(entry));
     }
+    printf("%lu\n", sizeof(hash_table_index));
 #else
     entry *pHead, *e;
     pHead = (entry *) malloc(sizeof(entry));
@@ -70,6 +71,7 @@ int main(int argc, char *argv[])
 #endif
 
     clock_gettime(CLOCK_REALTIME, &start);
+    i=0;
     while (fgets(line, sizeof(line), fp)) {
         while (line[i] != '\0')
             i++;

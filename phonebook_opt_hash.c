@@ -9,7 +9,7 @@ unsigned long hash(char *str)
     unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
     unsigned int hash = 0;
     while (*str) {
-        hash = hash*131 + (*str++);
+        hash = hash*seed + (*str++);
     }
     hash &= 0x7FFFFFFF;
     return (hash %= SIZE);
